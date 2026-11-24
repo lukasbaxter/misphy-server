@@ -21,7 +21,8 @@ cursor.execute("""
         track_album TEXT,
         track_index INTEGER,
         track_title TEXT,
-        path TEXT
+        track_extension TEXT,
+        track_path TEXT
     )
 """)
 connection.commit()
@@ -32,7 +33,7 @@ records = scan()
 
 cursor.executemany(
     """
-    INSERT INTO music (track_artist, track_album, track_index, track_title, path) VALUES (?, ?, ?, ?, ?,)
+    INSERT INTO music (track_artist, track_album, track_index, track_title, track_extension, track_path) VALUES (?, ?, ?, ?, ?, ?)
 """, records
 )
 connection.commit()

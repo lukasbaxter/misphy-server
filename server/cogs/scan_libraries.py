@@ -22,15 +22,16 @@ def scan():
     for artist in artists:
         albums = os.listdir(os.path.join(library, artist))
 
-        for album_folder in albums:
-            tracks = os.listdir(os.path.join(library, artist, album_folder))
+        for album in albums:
+            tracks = os.listdir(os.path.join(library, artist, album))
             for track in tracks:
                 parts = track.split(" - ", 4)
                 #now i have parts
-                track_index = parts[-2]
-                track_title = parts[-1].rsplit(".", 1) [0]
-                path = os.path.join(library, artist, album_folder, track)
-                records.append([artist, album_folder, track_index, track_title, path])
+                index = parts[-2]
+                title = parts[-1].rsplit(".", 1) [0]
+                extension = parts[-1].rsplit(".", 1) [1]
+                path = os.path.join(library, artist, album, track)
+                records.append([artist, album, index, title, extension, path])
                 
     return records
 
