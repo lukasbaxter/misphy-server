@@ -1,16 +1,5 @@
-# Dockerfile for Create React App (CRA)
+FROM nginx:alpine
 
-FROM node:20
+COPY ./dist .
 
-WORKDIR /app
-
-COPY package.json package-lock.json* ./
-RUN npm install
-
-COPY . .
-
-# CRA uses port 3000 by default
-EXPOSE 3000
-
-# Start CRA in dev mode
-CMD ["npm", "start"]
+EXPOSE 9971

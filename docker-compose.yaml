@@ -3,7 +3,7 @@ services:
     container_name: misphy-server
     build: ./server
     ports:
-      - "8000:8000"
+      - "9981:9981"
     env_file:
       - ./server/.env
     volumes:
@@ -16,7 +16,7 @@ services:
       context: ./web
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"             # cra default
+      - "9971:9071"             # cra default
     volumes:
       - ./web:/app              # source code
       - /app/node_modules       # keep node_modules inside the container
