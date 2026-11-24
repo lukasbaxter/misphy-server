@@ -20,13 +20,8 @@ logprefix_cogheck = Fore.LIGHTGREEN_EX + "COG:" + Fore.WHITE
 
 
 app = FastAPI()
-greeting = "hello from server.py"
-
-@app.get("/")
-async def fastapiGreeting():
-    return greeting
-
 db = "misphy.db"
+
 connection = None
 connection = sqlite3.connect(db, check_same_thread=True)
 cursor = connection.cursor()
@@ -58,47 +53,14 @@ def updateDB():
 
     connection.commit()
 
-
-
-class OnMyWatch:
-    watchDirectory = library
-    def __init__(self):
-        self.observer = Observer()
-
-    def run(self):
-        handler = Handler()
-        self.observer.schedule(handler, self.watchDirectory, recursive=True)
-        self.observer.start()
-
-        try:
-            while True:
-                time.sleep(5)
-        except KeyboardInterrupt:
-            self.observer.stop()
-
-        self.observer.join()
-
-
-class Handler(FileSystemEventHandler):
-
-    @staticmethod
-    def on_any_event(event):
-
-        if event.is_directory:
-            return
-
-        if event.event_type == "created":
-            updateDB()
-            print(logprefix_db, "Added:", event.src_path)
-
-        elif event.event_type == "deleted":
-            updateDB()
-            print(logprefix_db, "Removed:", event.src_path)
-
-if __name__ == "__main__":
-    updateDB()
-    watch = OnMyWatch()
-    watch.run()
-
-
 # SELECT * FROM music WHERE track_artist LIKE "%<query>%" OR track_title LIKE "%<query>%"
+
+
+@app.get("/api/v1/search")
+async def search(query: str = None):
+    cursor.execute("""
+        SELECT * FROM music WHERE track_title LIKE ? OR track_artist LIKE ?
+    """, ["%" + query + "%"]*2)
+    return cursor.fetchall()
+
+updateDB()
