@@ -1,25 +1,25 @@
-version: '3.8'
-
 services:
-  backend:
-    build: ./backend
+  server:
+    container_name: misphy-server
+    build: ./server
     ports:
       - "8000:8000"
     env_file:
-      - ./backend/.env
+      - ./server/.env
     volumes:
-      - ./backend/app:/app/app  
+      - ./server/app:/app/app  
 
-  frontend:
+  web:
+    container_name: misphy-web
     build:
-      context: ./frontend
+      context: ./web
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"             # ✅ CRA default
+      - "3000:3000"             # cra default
     volumes:
-      - ./frontend:/app         # Source code
-      - /app/node_modules       # Keep node_modules inside the container
-    stdin_open: true            # ✅ Needed for CRA dev server
+      - ./web:/app              # source code
+      - /app/node_modules       # keep node_modules inside the container
+    stdin_open: true            # needed for CRA dev server
     tty: true
     depends_on:
-      - backend
+      - server
