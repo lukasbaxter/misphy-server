@@ -23,7 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 #self hosting
-/music
-/startvenv.sh
-__pycache__
-misphy.db
+/server/music
+/server/__pycache__
+/server/misphy.db
